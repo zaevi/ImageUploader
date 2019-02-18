@@ -1,0 +1,59 @@
+﻿<Window x:Class="ImageUploader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageUploader"
+        mc:Ignorable="d"
+        Title="ImageUploader" SizeToContent="Height" Width="300" ResizeMode="NoResize">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed"/>
+    </Window.CommandBindings>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FEFEFE"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        <Grid Margin="10" Height="300" AllowDrop="True" PreviewDragOver="Image_PreviewDragOver" PreviewDrop="Image_PreviewDrop" MouseLeftButtonDown="Image_MouseLeftClick">
+            <Rectangle Fill="White"/>
+            <TextBlock x:Name="imageMsg" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" Foreground="Gray" TextAlignment="Center">
+                拖拽图片到这里, 或双击选择文件
+                <LineBreak/>或者按下 Ctrl+V 试试...
+            </TextBlock>
+            <TextBlock Visibility="Collapsed" x:Name="imageErrorMsg" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" Foreground="Gray" TextAlignment="Center">
+                这个似乎不是图像, 不过问题不大
+            </TextBlock>
+            <Image x:Name="image" Source="{Binding Path=Image}"
+                   Focusable="True" SnapsToDevicePixels="False" StretchDirection="DownOnly"/>
+        </Grid>
+        <DockPanel Margin="10,0">
+            <TextBlock Text="Key" VerticalAlignment="Center"/>
+            <TextBox Padding="2" VerticalContentAlignment="Center" Margin="5,0" Text="{Binding Path=Key}">
+                <TextBox.ToolTip>建议保留后缀名以正确判断图像格式</TextBox.ToolTip>
+            </TextBox>
+        </DockPanel>
+        <DockPanel Margin="10">
+            <TextBlock Text="选择配置" VerticalAlignment="Center"/>
+            <Button Content="上传" DockPanel.Dock="Right" Padding="10,5" Click="Upload_Click"/>
+            <ComboBox x:Name="comboBoxProviders" Margin="5,0" VerticalContentAlignment="Center" SelectedValue="{Binding Path=Provider}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Attribute[Name].Value}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel x:Name="resultPanel" Margin="10,0,10,10">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                <TextBlock x:Name="msgLabel" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center">
+                    <Hyperlink NavigateUri="https://github.com/Zaeworks/ImageUploader" RequestNavigate="About_RequestNavigate">Github页面</Hyperlink>
+                </TextBlock>
+                <Button DockPanel.Dock="Right" Content="复制" Padding="10,5" IsEnabled="{Binding Path=Succeed}" Click="Copy_Click"/>
+                <CheckBox x:Name="mdCheckBox" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Markdown" VerticalAlignment="Center" Margin="5,0" IsEnabled="{Binding Path=Succeed}" IsChecked="{Binding Path=MarkdownFormat}"/>
+            </DockPanel>
+            <TextBox x:Name="resultTextBox" TextWrapping="Wrap" Padding="2" Text="{Binding Path=Message, Mode=OneWay}"/>
+        </DockPanel>
+    </StackPanel>
+</Window>
