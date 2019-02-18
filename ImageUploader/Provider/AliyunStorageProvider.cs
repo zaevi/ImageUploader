@@ -1,4 +1,5 @@
 ﻿using Aliyun.OSS;
+using Aliyun.OSS.Util;
 using System;
 using System.IO;
 using System.Xml.Linq;
@@ -36,7 +37,13 @@ namespace ImageUploader.Provider
 
         public bool Upload(string key, Stream stream)
         {
-            var result = Client.PutObject(BucketName, key, stream);
+            // To be fixed: https://github.com/aliyun/aliyun-oss-csharp-sdk/issues/77
+            var metadata = new ObjectMetadata() { ContentType = HttpUtils.GetContentType(key.ToLower(), null) };
+            // To be fixed: https://github.com/aliyun/aliyun-oss-csharp-sdk/issues/79
+            if (key.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+                metadata.ContentType = "image/gif";
+
+            var result = Client.PutObject(BucketName, key, stream, metadata);
             return result.HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
 
