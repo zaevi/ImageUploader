@@ -13,7 +13,7 @@ namespace ImageUploader.Provider
 
         public string EndPoint { get; set; } = "YourEndPoint";
 
-        public string AccessKeyId { get; set; } = "AccessKeyId";
+        public string AccessKeyId { get; set; } = "YourAccessKeyId";
 
         public string AccessKeySecret { get; set; } = "YourAccessKeySecret";
 
@@ -29,7 +29,7 @@ namespace ImageUploader.Provider
         }
 
         public string GetUrl(string key)
-            => $"http://{BucketName}.{EndPoint}/{key}";
+            => $"https://{BucketName}.{EndPoint}/{key}";
 
         public bool Test()
             => Client.DoesBucketExist(BucketName);

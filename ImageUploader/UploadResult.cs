@@ -35,7 +35,7 @@ namespace ImageUploader
                     if (!MarkdownFormat)
                         return Url;
                     else
-                        return $"{(MarkdownFormat ? "!" : "")}[{Path.GetFileName(Url)}]({Url})";
+                        return $"{(Request.IsImage ? "!" : "")}[{Path.GetFileName(Url)}]({Url})";
                 }
                 else
                 {
