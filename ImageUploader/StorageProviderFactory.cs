@@ -14,6 +14,10 @@ namespace ImageUploader
                 case nameof(AliyunStorageProvider):
                     provider = AliyunStorageProvider.FromXml(element);
                     break;
+                case "Qiniu":
+                case nameof(QiniuStorageProvider):
+                    provider = QiniuStorageProvider.FromXml(element);
+                    break;
             }
             return provider;
         }
@@ -27,7 +31,8 @@ namespace ImageUploader
         public static XElement GetDefaultXmlConfig()
         {
             return new XElement("ImageUploaderConfig",
-                    new AliyunStorageProvider().ToXml()
+                    new AliyunStorageProvider().ToXml(),
+                    new QiniuStorageProvider().ToXml()
                 );
         }
     }
