@@ -6,18 +6,24 @@ using System.Xml.Linq;
 
 namespace ImageUploader.Provider
 {
+    [Config("Aliyun", "Oss")]
     public class AliyunStorageProvider : IStorageProvider
     {
         private OssClient _client;
 
+        [Config]
         public string Name { get; set; } = "Aliyun Oss";
 
+        [Config]
         public string EndPoint { get; set; } = "YourEndPoint";
 
+        [Config("SecretId")]
         public string AccessKeyId { get; set; } = "YourAccessKeyId";
 
+        [Config("SecretKey")]
         public string AccessKeySecret { get; set; } = "YourAccessKeySecret";
 
+        [Config("Bucket")]
         public string BucketName { get; set; } = "YourBucketName";
 
         public OssClient Client

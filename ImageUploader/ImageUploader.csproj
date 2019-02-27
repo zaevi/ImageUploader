@@ -70,6 +70,8 @@
     <Compile Include="StorageProviderFactory.cs" />
     <Compile Include="UploadRequest.cs" />
     <Compile Include="UploadResult.cs" />
+    <Compile Include="XmlHelper\ConfigAttribute.cs" />
+    <Compile Include="XmlHelper\XmlReader.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

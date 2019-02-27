@@ -10,16 +10,22 @@ using Qiniu.Util;
 
 namespace ImageUploader.Provider
 {
+    [Config("Qiniu")]
     public class QiniuStorageProvider : IStorageProvider
     {
+        [Config]
         public string Name { get; set; } = "Qiniu Storage";
 
+        [Config]
         public string Domain { get; set; } = "YourDomain";
 
+        [Config("SecretId")]
         public string AccessKey { get; set; } = "YourAccessKey";
 
+        [Config]
         public string SecretKey { get; set; } = "YourSecretKey";
 
+        [Config]
         public string Bucket { get; set; } = "YourBucket";
 
         public string Token => Auth.CreateUploadToken(
