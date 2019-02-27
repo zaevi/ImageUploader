@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Qiniu.Storage;
+﻿using Qiniu.Storage;
 using Qiniu.Util;
+using System.IO;
 
 namespace ImageUploader.Provider
 {
@@ -14,19 +8,19 @@ namespace ImageUploader.Provider
     public class QiniuStorageProvider : IStorageProvider
     {
         [Config]
-        public string Name { get; set; } = "Qiniu Storage";
+        public string Name { get; set; }
 
         [Config]
-        public string Domain { get; set; } = "YourDomain";
+        public string Domain { get; set; }
 
         [Config("SecretId")]
-        public string AccessKey { get; set; } = "YourAccessKey";
+        public string AccessKey { get; set; }
 
         [Config]
-        public string SecretKey { get; set; } = "YourSecretKey";
+        public string SecretKey { get; set; }
 
         [Config]
-        public string Bucket { get; set; } = "YourBucket";
+        public string Bucket { get; set; }
 
         public string Token => Auth.CreateUploadToken(
             new Mac(AccessKey, SecretKey),
@@ -49,38 +43,5 @@ namespace ImageUploader.Provider
 
             return result.Code == 200;
         }
-
-        #region [Xml Read & Write]
-
-        public static QiniuStorageProvider FromXml(XElement element)
-        {
-            try
-            {
-                var provider = new QiniuStorageProvider()
-                {
-                    Name = element.Attribute(nameof(Name)).Value,
-                    Domain = element.Attribute(nameof(Domain)).Value,
-                    AccessKey = element.Attribute(nameof(AccessKey)).Value,
-                    SecretKey = element.Attribute(nameof(SecretKey)).Value,
-                    Bucket = element.Attribute(nameof(Bucket)).Value,
-                };
-                return provider;
-            }
-            catch (NullReferenceException)
-            {
-                return null;
-            }
-        }
-
-        public XElement ToXml()
-            => new XElement(nameof(QiniuStorageProvider),
-                new XAttribute(nameof(Name), Name),
-                new XAttribute(nameof(Domain), Domain),
-                new XAttribute(nameof(AccessKey), AccessKey),
-                new XAttribute(nameof(SecretKey), SecretKey),
-                new XAttribute(nameof(Bucket), Bucket)
-                );
-
-        #endregion
     }
 }

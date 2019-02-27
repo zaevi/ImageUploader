@@ -2,7 +2,6 @@
 using Aliyun.OSS.Util;
 using System;
 using System.IO;
-using System.Xml.Linq;
 
 namespace ImageUploader.Provider
 {
@@ -12,19 +11,19 @@ namespace ImageUploader.Provider
         private OssClient _client;
 
         [Config]
-        public string Name { get; set; } = "Aliyun Oss";
+        public string Name { get; set; }
 
         [Config]
-        public string EndPoint { get; set; } = "YourEndPoint";
+        public string EndPoint { get; set; }
 
         [Config("SecretId")]
-        public string AccessKeyId { get; set; } = "YourAccessKeyId";
+        public string AccessKeyId { get; set; }
 
         [Config("SecretKey")]
-        public string AccessKeySecret { get; set; } = "YourAccessKeySecret";
+        public string AccessKeySecret { get; set; }
 
         [Config("Bucket")]
-        public string BucketName { get; set; } = "YourBucketName";
+        public string BucketName { get; set; }
 
         public OssClient Client
         {
@@ -52,38 +51,5 @@ namespace ImageUploader.Provider
             var result = Client.PutObject(BucketName, key, stream, metadata);
             return result.HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
-
-        #region [Xml Read & Write]
-
-        public static AliyunStorageProvider FromXml(XElement element)
-        {
-            try
-            {
-                var provider = new AliyunStorageProvider()
-                {
-                    Name = element.Attribute(nameof(Name)).Value,
-                    EndPoint = element.Attribute(nameof(EndPoint)).Value,
-                    AccessKeyId = element.Attribute(nameof(AccessKeyId)).Value,
-                    AccessKeySecret = element.Attribute(nameof(AccessKeySecret)).Value,
-                    BucketName = element.Attribute(nameof(BucketName)).Value,
-                };
-                return provider;
-            }
-            catch(NullReferenceException)
-            {
-                return null;
-            }
-        }
-
-        public XElement ToXml()
-            => new XElement(nameof(AliyunStorageProvider),
-                new XAttribute(nameof(Name), Name),
-                new XAttribute(nameof(EndPoint), EndPoint),
-                new XAttribute(nameof(AccessKeyId), AccessKeyId),
-                new XAttribute(nameof(AccessKeySecret), AccessKeySecret),
-                new XAttribute(nameof(BucketName), BucketName)
-                );
-
-        #endregion
     }
 }
