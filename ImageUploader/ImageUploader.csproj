@@ -55,6 +55,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Tencent.QCloud.Cos.Sdk, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tencent.QCloud.Cos.Sdk.5.4.0\lib\net40\Tencent.QCloud.Cos.Sdk.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Provider\AliyunStorageProvider.cs" />
     <Compile Include="Provider\IStorageProvider.cs" />
+    <Compile Include="Provider\QCloudStorageProvider.cs" />
     <Compile Include="Provider\QiniuStorageProvider.cs" />
     <Compile Include="StorageProviderFactory.cs" />
     <Compile Include="UploadRequest.cs" />
